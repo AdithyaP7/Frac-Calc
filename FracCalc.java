@@ -20,6 +20,7 @@ public class FracCalc {
     public static String produceAnswer(String input)
     { 
         String firstoperand= input.substring(0, input.indexOf (" "));
+        String firstoperandnum = firstoperand.substring(indexOf("_")
         String operator= input.substring(input.indexOf (" "), input.indexOf (" ") + 2);
         String secondoperator = input.substring(input.indexOf (" ") + 2);
         
