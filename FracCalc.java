@@ -24,20 +24,33 @@ public class FracCalc {
         String firstoperandwhole = " ";
         String firstoperandnum = " ";
         String firstoperanddenom = " ";
-        if (firstoperand.contains(" "))
+        if (firstoperand.contains("_") && firstoperand.contains("-")==false)
         {
             firstoperandwhole = firstoperand.substring(0, firstoperand.indexOf("_"));
             firstoperandnum = firstoperand.substring(firstoperand.indexOf("_"), firstoperand.indexOf("/"));
             firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1);
         }
-        else if (firstoperand.contains("_") == false && firstoperand.contains("/")){
-            firstoperandwhole = 0;
-            firstoperandnum = firstoperand.substring(indexOf("1"||"2"||"3"||"4"||"5"||"6"||"7"||"8"||"9"),firstoperand.indexOf("/"));
-            firatoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1, firstoperand.indexOf(" "));
+        else if(firstoperand.contains("_") && firstoperand.contains("-")== true)
+        {
+            firstoperandwhole = firstoperand.substring(firstoperand.indexOf("-")+1, firstoperand.indexOf("_"));
+            firstoperandnum = firstoperand.substring(firstoperand.indexOf("_"), firstoperand.indexOf("/"));
+            firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1);
+        }
+        else if (firstoperand.contains("_") == false && firstoperand.contains("/") && firstoperand.contains("-") == false){
+            firstoperandwhole = "0" ;
+            firstoperandnum = firstoperand.substring(0,firstoperand.indexOf("/"));
+            firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1, firstoperand.indexOf(" "));
         }   
+        else if (firstoperand.contains("_") == false && firstoperand.contains("/") && firstoperand.contains("-")){
+            firstoperandwhole = "0" ;
+            firstoperandnum = firstoperand.substring(firstoperand.indexOf("-")+1,firstoperand.indexOf("/"));
+            firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1, firstoperand.indexOf(" "));
+        }
         else
         {
-            firstoperandwhole = 
+            firstoperandwhole = firstoperand;
+            firstoperandnum = "0";
+            firstoperanddenom = "1";
             /*String operator= input.substring(input.indexOf (" "), input.indexOf (" ") + 2);
             String secondoperand = input.substring(input.indexOf (" ") + 2);
             String secondoperandwhole = secondoperand.substring(0, secondoperand.indexOf("_"));
@@ -52,4 +65,5 @@ public class FracCalc {
         return firstoperanddenom;
 
     }
+}
 
