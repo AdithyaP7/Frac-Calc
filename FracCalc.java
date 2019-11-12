@@ -35,7 +35,7 @@ public class FracCalc {
         if (firstoperand.contains("_") && firstoperand.contains("-")==false)
         {
             firstoperandwhole = firstoperand.substring(0, firstoperand.indexOf("_"));
-            firstoperandnum = firstoperand.substring(firstoperand.indexOf("_"), firstoperand.indexOf("/"));
+            firstoperandnum = firstoperand.substring(firstoperand.indexOf("_")+1, firstoperand.indexOf("/"));
             firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1);
         }
         else if(firstoperand.contains("_") && firstoperand.contains("-"))
@@ -47,7 +47,7 @@ public class FracCalc {
         else if (firstoperand.contains("_") == false && firstoperand.contains("/") && firstoperand.contains("-") == false){
             firstoperandwhole = "0" ;
             firstoperandnum = firstoperand.substring(0,firstoperand.indexOf("/"));
-            firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1, firstoperand.indexOf(" "));
+            firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1);
         }   
         else if (firstoperand.contains("_") == false && firstoperand.contains("/") && firstoperand.contains("-")){
             firstoperandwhole = "0" ;
@@ -87,19 +87,21 @@ public class FracCalc {
         int secondoperandnumint = Integer.parseInt(secondoperandnum);
         int secondoperanddenomint = Integer.parseInt(secondoperanddenom);
         int impropernumfirstoperand = ((firstoperandwholeint * firstoperanddenomint) + firstoperandnumint) ;
-        int impropernumsecondoperand = (secondoperandwholeint * secondoperanddenomint) + secondoperandnumint);
-        if (operator == "+"){
+        int impropernumsecondoperand = ((secondoperandwholeint * secondoperanddenomint) + secondoperandnumint);
+        if (operator.contains("+")){
             unsimplifiedanswer = addition(firstoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
-        else if (operator == "-"){
+        else if (operator.contains("-")){
             unsimplifiedanswer = subtraction(firstoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
-        else if (operator == "*"){
+        else if (operator.contains("*")){
             unsimplifiedanswer = multiplication(firstoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
-        else if (operator == "/"){
+        else{
             unsimplifiedanswer = division(firstoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
+        System.out.println(unsimplifiedanswer);
+        //simplifiedanswer = simplification(unsimplifiedanswer);
 
         /*String operator= input.substring(input.indexOf (" "), input.indexOf (" ") + 2);
         String secondoperand = input.substring(input.indexOf (" ") + 2);
@@ -112,70 +114,75 @@ public class FracCalc {
         // TODO: Implement this function to produce the solution to the input
         //return secondcheckpoint; 
         //return secondcheckpoint;
-        return simplifiedanswer;
+        return unsimplifiedanswer;
     }
 
     public static String addition(String container, int firstnum,int firstdenom, int secondnum, int seconddenom){
-    int num = 0;
-    int denom = firstdenom * seconddenom;
-    firstnum = firstnum * seconddenom;
-    secondnum = secondnum * firstdenom;
-    if (container.contains("-")== false){
-    num = firstnum + secondnum;
-    }
-    else{
-    num = secondnum - firstnum;
-        
-    }
-    String result = num + "/" + denom;
-    return result;
-    }
-    public static String subtraction(String container, int firstwhole,int firstnum, int firstdenom, int secondwhole, int secondnum, int seconddenom){
-    int num = 0;
-    int denom = firstdenom * seconddenom;
-    firstnum = firstnum * seconddenom;
-    secondnum = secondnum * firstdenom;
-    if (container.contains("-")== false){
-    num = firstnum - secondnum;
-    }
-    else{
-    num = (secondnum + firstnum);
-    num *= -1;
-    }
-    String result = num + "/" + denom;
-    return result;
+        int num = 0;
+        int denom = firstdenom * seconddenom;
+        firstnum = firstnum * seconddenom;
+        secondnum = secondnum * firstdenom;
+        if (container.contains("-")== false){
+            num = firstnum + secondnum;
+        }
+        else{
+            num = secondnum - firstnum;
+
+        }
+        String result = (num + "/" + denom);
+        return result;
     }
 
-    public static String multiplication(String container, int firstwhole,int firstnum, int firstdenom, int secondwhole, int secondnum, int seconddenom){
-    int num = 0;
-    int denom = 0;
-    if (container.contains("-")== false){
-    num = firstnum * secondnum;
-    denom = firstdenom * seconddenom;
-    }
-    else{
-    num = firstnum * secondnum;
-    denom = firstdenom * seconddenom;
-    num *= -1;
-    }
-    String result = num + "/" + denom;
-    return result;
+    public static String subtraction(String container, int firstnum,int firstdenom, int secondnum, int seconddenom){
+        int num = 0;
+        int denom = firstdenom * seconddenom;
+        firstnum = firstnum * seconddenom;
+        secondnum = secondnum * firstdenom;
+        if (container.contains("-")== false){
+            num = firstnum - secondnum;
+        }
+        else{
+            num = (secondnum + firstnum);
+            num *= -1;
+        }
+        String result = (num + "/" + denom);
+        return result;
     }
 
-    public static String division(String container, int firstwhole,int firstnum, int firstdenom, int secondwhole, int secondnum, int seconddenom){
-    int num = 0;
-    int denom = 0;
-    if (container.contains("-")== false){
-    num = firstnum * seconddenom;
-    denom = firstdenom * secondnum;
+    public static String multiplication(String container, int firstnum,int firstdenom, int secondnum, int seconddenom){
+        int num = 0;
+        int denom = 0;
+        if (container.contains("-")== false){
+            num = firstnum * secondnum;
+            denom = firstdenom * seconddenom;
+        }
+        else{
+            num = firstnum * secondnum;
+            denom = firstdenom * seconddenom;
+            num *= -1;
+        }
+        String result = (num + "/" + denom);
+        return result;
     }
-    else{
-    num = firstnum * seconddenom;
-    denom = firstdenom * secondnum;
-    num *= -1;
+
+    public static String division(String container, int firstnum,int firstdenom, int secondnum, int seconddenom){
+        int num = 0;
+        int denom = 0;
+        if (container.contains("-")== false){
+            num = firstnum * seconddenom;
+            denom = firstdenom * secondnum;
+        }
+        else{
+            num = firstnum * seconddenom;
+            denom = firstdenom * secondnum;
+            num *= -1;
+        }
+        String result = (num + "/" + denom);
+        return result;
     }
-    String result = num + "/" + denom;
-    return result;
-    }
+
+    /*public static String simplification(String fraction){
+    int num = Integer.parseInt(fraction.substring(0,fraction.substring("/")));
+    }*/
 }
 
