@@ -31,7 +31,6 @@ public class FracCalc {
         String secondoperanddenom = " ";
         String unsimplifiedanswer = " ";
         String simplifiedanswer = " ";
-
         if (firstoperand.contains("_") && firstoperand.contains("-")==false)
         {
             firstoperandwhole = firstoperand.substring(0, firstoperand.indexOf("_"));
@@ -129,7 +128,7 @@ public class FracCalc {
         // TODO: Implement this function to produce the solution to the input
         //return secondcheckpoint; 
         //return secondcheckpoint;
-        return unsimplifiedanswer;
+        return simplifiedanswer;
     }
 
     public static String addition(String container, String container2, int firstnum,int firstdenom, int secondnum, int seconddenom){
@@ -233,8 +232,60 @@ public class FracCalc {
     }
 
     public static String simplification(String fraction){
-    int num = Integer.parseInt(fraction.substring(0,fraction.indexOf("/")));
+    int num = 0;
+    int denom = 0;
+    int gcf = 0; 
+    String answer;
+    int divide = 0;
+    int mod = 0;
+    if (fraction.contains("-") == false){
+         if(fraction.substring(0, fraction.indexOf("/")).contains("0")){
+            answer = "0";
+            }
+         else{
+         num = Integer.parseInt(fraction.substring(0,fraction.indexOf("/")));
+         denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
+         if (num == denom){
+             answer = "1";
+            }
+         else{
+         gcf = gcf(num, denom);
+         num = num/gcf;
+         denom = denom/gcf;
+         divide = num/denom;
+         mod = num%denom;
+         answer = divide + "_" + mod + "/" + denom;
+        }
+        }
+    }
+    else{
+         if(fraction.substring(fraction.indexOf("-"), fraction.indexOf("/")).contains("0")){
+           answer = "0";
+            }
+         else{
+         num = Integer.parseInt(fraction.substring(fraction.indexOf("-") +1,fraction.indexOf("/")));
+         denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
+         gcf = gcf(num, denom);
+         num = num/gcf;
+         denom = denom/gcf;
+         divide = num/denom;
+         mod = num%denom;
+         divide *= -1;
+         answer = divide + "_" + mod + "/" + denom;
+        }
+    }
     
+    
+    return answer;
+    
+}
+    public static int gcf(int p, int q) {
+        while (q != 0) {
+            int temp = q;
+            q = p % q;
+            p = temp;
+        }
+        return p;
     }
 }
 
