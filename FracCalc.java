@@ -31,6 +31,7 @@ public class FracCalc {
         String secondoperanddenom = " ";
         String unsimplifiedanswer = " ";
         String simplifiedanswer = " ";
+        
         if (firstoperand.contains("_") && firstoperand.contains("-")==false)
         {
             firstoperandwhole = firstoperand.substring(0, firstoperand.indexOf("_"));
@@ -40,7 +41,7 @@ public class FracCalc {
         else if(firstoperand.contains("_") && firstoperand.contains("-"))
         {
             firstoperandwhole = firstoperand.substring(firstoperand.indexOf("-")+1, firstoperand.indexOf("_"));
-            firstoperandnum = firstoperand.substring(firstoperand.indexOf("_"), firstoperand.indexOf("/"));
+            firstoperandnum = firstoperand.substring(firstoperand.indexOf("_") +1, firstoperand.indexOf("/"));
             firstoperanddenom = firstoperand.substring(firstoperand.indexOf("/")+1);
         }
         else if (firstoperand.contains("_") == false && firstoperand.contains("/") && firstoperand.contains("-") == false){
@@ -111,7 +112,7 @@ public class FracCalc {
         else if (operator.contains("*")){
             unsimplifiedanswer = multiplication(firstoperand, secondoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
-        else{
+        else if (operator.contains("/")){
             unsimplifiedanswer = division(firstoperand, secondoperand, impropernumfirstoperand,firstoperanddenomint, impropernumsecondoperand, secondoperanddenomint);
         }
         System.out.println(unsimplifiedanswer);
@@ -232,53 +233,73 @@ public class FracCalc {
     }
 
     public static String simplification(String fraction){
-    int num = 0;
-    int denom = 0;
-    int gcf = 0; 
-    String answer;
-    int divide = 0;
-    int mod = 0;
-    if (fraction.contains("-") == false){
-         if(fraction.substring(0, fraction.indexOf("/")).contains("0")){
-            answer = "0";
-            }
-         else{
-         num = Integer.parseInt(fraction.substring(0,fraction.indexOf("/")));
-         denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
-         if (num == denom){
-             answer = "1";
-            }
-         else{
-         gcf = gcf(num, denom);
-         num = num/gcf;
-         denom = denom/gcf;
-         divide = num/denom;
-         mod = num%denom;
-         answer = divide + "_" + mod + "/" + denom;
+        int num = 0;
+        int denom = 0;
+        int gcf = 0; 
+        String answer;
+        int divide = 0;
+        int mod = 0;
+        if(fraction.substring(fraction.indexOf("/")+1).contains("1") && (fraction.substring(fraction.indexOf("/")+1).length() == 1)){
+            answer = fraction.substring(0, fraction.indexOf("/"));
         }
+        else{
+            if (fraction.contains("-") == false){
+                if(fraction.substring(0, 1).contains("0")){
+                    answer = "0";
+                }
+                else{
+                    num = Integer.parseInt(fraction.substring(0,fraction.indexOf("/")));
+                    denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
+                    if (num == denom){
+                        answer = "1";
+                    }
+                    else{
+                        gcf = gcf(num, denom);
+                        num = num/gcf;
+                        denom = denom/gcf;
+                        divide = num/denom;
+                        mod = num%denom;
+                        if (divide == 0){
+                            answer = mod + "/" + denom;
+                        }
+                        else{
+                            answer = divide + "_" + mod + "/" + denom;
+                        }
+                        
+                    }
+                }
+            }
+            else{
+                if(fraction.substring(fraction.indexOf("-")+1, fraction.indexOf("-")+2).contains("0")){
+                    answer = "0";
+                }
+                else{
+                    num = Integer.parseInt(fraction.substring(fraction.indexOf("-") +1,fraction.indexOf("/")));
+                    denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
+                    gcf = gcf(num, denom);
+                    num = num/gcf;
+                    denom = denom/gcf;
+                    divide = num/denom;
+                    mod = num%denom;
+                    if (divide == 0){
+                        mod *= -1;
+                        answer = mod + "/" + denom;
+                    }
+                    else{
+                        divide *= -1;
+                        answer = divide + "_" + mod + "/" + denom;
+                    }
+                    
+                }
+            }
         }
+        if (answer.substring(answer.indexOf("_")+1,answer.indexOf("_")+2).contains("0")){
+            answer = Integer.toString(divide);
+        }
+        return answer;
+
     }
-    else{
-         if(fraction.substring(fraction.indexOf("-"), fraction.indexOf("/")).contains("0")){
-           answer = "0";
-            }
-         else{
-         num = Integer.parseInt(fraction.substring(fraction.indexOf("-") +1,fraction.indexOf("/")));
-         denom = Integer.parseInt(fraction.substring(fraction.indexOf("/")+1));
-         gcf = gcf(num, denom);
-         num = num/gcf;
-         denom = denom/gcf;
-         divide = num/denom;
-         mod = num%denom;
-         divide *= -1;
-         answer = divide + "_" + mod + "/" + denom;
-        }
-    }
-    
-    
-    return answer;
-    
-}
+
     public static int gcf(int p, int q) {
         while (q != 0) {
             int temp = q;
